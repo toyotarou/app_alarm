@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'alarm.dart';
+part of 'alarm_collection.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,13 @@ part of 'alarm.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetAlarmCollection on Isar {
-  IsarCollection<Alarm> get alarms => this.collection();
+extension GetAlarmCollectionCollection on Isar {
+  IsarCollection<AlarmCollection> get alarmCollections => this.collection();
 }
 
-const AlarmSchema = CollectionSchema(
-  name: r'Alarm',
-  id: -6172094888861729789,
+const AlarmCollectionSchema = CollectionSchema(
+  name: r'AlarmCollection',
+  id: 7735702546375020139,
   properties: {
     r'alarmOn': PropertySchema(
       id: 0,
@@ -43,10 +43,10 @@ const AlarmSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _alarmEstimateSize,
-  serialize: _alarmSerialize,
-  deserialize: _alarmDeserialize,
-  deserializeProp: _alarmDeserializeProp,
+  estimateSize: _alarmCollectionEstimateSize,
+  serialize: _alarmCollectionSerialize,
+  deserialize: _alarmCollectionDeserialize,
+  deserializeProp: _alarmCollectionDeserializeProp,
   idName: r'id',
   indexes: {
     r'date': IndexSchema(
@@ -65,14 +65,14 @@ const AlarmSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _alarmGetId,
-  getLinks: _alarmGetLinks,
-  attach: _alarmAttach,
+  getId: _alarmCollectionGetId,
+  getLinks: _alarmCollectionGetLinks,
+  attach: _alarmCollectionAttach,
   version: '3.1.0+1',
 );
 
-int _alarmEstimateSize(
-  Alarm object,
+int _alarmCollectionEstimateSize(
+  AlarmCollection object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -84,8 +84,8 @@ int _alarmEstimateSize(
   return bytesCount;
 }
 
-void _alarmSerialize(
-  Alarm object,
+void _alarmCollectionSerialize(
+  AlarmCollection object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -97,13 +97,13 @@ void _alarmSerialize(
   writer.writeString(offsets[4], object.title);
 }
 
-Alarm _alarmDeserialize(
+AlarmCollection _alarmCollectionDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Alarm();
+  final object = AlarmCollection();
   object.alarmOn = reader.readLong(offsets[0]);
   object.date = reader.readString(offsets[1]);
   object.description = reader.readString(offsets[2]);
@@ -113,7 +113,7 @@ Alarm _alarmDeserialize(
   return object;
 }
 
-P _alarmDeserializeProp<P>(
+P _alarmCollectionDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -135,28 +135,32 @@ P _alarmDeserializeProp<P>(
   }
 }
 
-Id _alarmGetId(Alarm object) {
+Id _alarmCollectionGetId(AlarmCollection object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _alarmGetLinks(Alarm object) {
+List<IsarLinkBase<dynamic>> _alarmCollectionGetLinks(AlarmCollection object) {
   return [];
 }
 
-void _alarmAttach(IsarCollection<dynamic> col, Id id, Alarm object) {
+void _alarmCollectionAttach(
+    IsarCollection<dynamic> col, Id id, AlarmCollection object) {
   object.id = id;
 }
 
-extension AlarmQueryWhereSort on QueryBuilder<Alarm, Alarm, QWhere> {
-  QueryBuilder<Alarm, Alarm, QAfterWhere> anyId() {
+extension AlarmCollectionQueryWhereSort
+    on QueryBuilder<AlarmCollection, AlarmCollection, QWhere> {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> idEqualTo(Id id) {
+extension AlarmCollectionQueryWhere
+    on QueryBuilder<AlarmCollection, AlarmCollection, QWhereClause> {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause> idEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -165,7 +169,8 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -187,8 +192,8 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -196,7 +201,8 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause> idLessThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -205,7 +211,7 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> idBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -221,7 +227,8 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> dateEqualTo(String date) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause> dateEqualTo(
+      String date) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'date',
@@ -230,7 +237,8 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterWhereClause> dateNotEqualTo(String date) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterWhereClause>
+      dateNotEqualTo(String date) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -265,8 +273,10 @@ extension AlarmQueryWhere on QueryBuilder<Alarm, Alarm, QWhereClause> {
   }
 }
 
-extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> alarmOnEqualTo(int value) {
+extension AlarmCollectionQueryFilter
+    on QueryBuilder<AlarmCollection, AlarmCollection, QFilterCondition> {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      alarmOnEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'alarmOn',
@@ -275,7 +285,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> alarmOnGreaterThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      alarmOnGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -288,7 +299,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> alarmOnLessThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      alarmOnLessThan(
     int value, {
     bool include = false,
   }) {
@@ -301,7 +313,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> alarmOnBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      alarmOnBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -318,7 +331,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateEqualTo(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -331,7 +345,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateGreaterThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -346,7 +361,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateLessThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -361,7 +377,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -380,7 +397,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateStartsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -393,7 +411,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateEndsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -406,8 +425,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'date',
@@ -417,8 +436,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'date',
@@ -428,7 +447,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateIsEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'date',
@@ -437,7 +457,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> dateIsNotEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      dateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'date',
@@ -446,7 +467,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionEqualTo(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -459,7 +481,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionGreaterThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -474,7 +497,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionLessThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -489,7 +513,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -508,7 +533,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionStartsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -521,7 +547,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionEndsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -534,9 +561,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'description',
@@ -546,9 +572,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'description',
@@ -558,7 +583,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionIsEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'description',
@@ -567,7 +593,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> descriptionIsNotEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      descriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'description',
@@ -576,7 +603,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -585,7 +613,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -598,7 +627,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> idLessThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -611,7 +641,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> idBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -628,7 +659,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeEqualTo(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -641,7 +673,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeGreaterThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -656,7 +689,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeLessThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -671,7 +705,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -690,7 +725,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeStartsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -703,7 +739,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeEndsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -716,8 +753,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'time',
@@ -727,8 +764,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'time',
@@ -738,7 +775,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeIsEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'time',
@@ -747,7 +785,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> timeIsNotEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      timeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'time',
@@ -756,7 +795,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleEqualTo(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -769,7 +809,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -784,7 +825,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -799,7 +841,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleBetween(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -818,7 +861,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleStartsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -831,7 +875,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleEndsWith(
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -844,8 +889,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'title',
@@ -855,8 +900,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'title',
@@ -866,7 +911,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'title',
@@ -875,7 +921,8 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterFilterCondition>
+      titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'title',
@@ -885,175 +932,193 @@ extension AlarmQueryFilter on QueryBuilder<Alarm, Alarm, QFilterCondition> {
   }
 }
 
-extension AlarmQueryObject on QueryBuilder<Alarm, Alarm, QFilterCondition> {}
+extension AlarmCollectionQueryObject
+    on QueryBuilder<AlarmCollection, AlarmCollection, QFilterCondition> {}
 
-extension AlarmQueryLinks on QueryBuilder<Alarm, Alarm, QFilterCondition> {}
+extension AlarmCollectionQueryLinks
+    on QueryBuilder<AlarmCollection, AlarmCollection, QFilterCondition> {}
 
-extension AlarmQuerySortBy on QueryBuilder<Alarm, Alarm, QSortBy> {
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByAlarmOn() {
+extension AlarmCollectionQuerySortBy
+    on QueryBuilder<AlarmCollection, AlarmCollection, QSortBy> {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> sortByAlarmOn() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'alarmOn', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByAlarmOnDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      sortByAlarmOnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'alarmOn', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByDate() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> sortByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByDateDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      sortByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByDescription() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByDescriptionDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      sortByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByTime() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> sortByTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByTimeDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      sortByTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByTitle() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> sortByTitleDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
   }
 }
 
-extension AlarmQuerySortThenBy on QueryBuilder<Alarm, Alarm, QSortThenBy> {
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByAlarmOn() {
+extension AlarmCollectionQuerySortThenBy
+    on QueryBuilder<AlarmCollection, AlarmCollection, QSortThenBy> {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> thenByAlarmOn() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'alarmOn', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByAlarmOnDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      thenByAlarmOnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'alarmOn', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByDate() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> thenByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByDateDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByDescription() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      thenByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByDescriptionDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      thenByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenById() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByTime() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> thenByTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByTimeDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      thenByTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.desc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByTitle() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QAfterSortBy> thenByTitleDesc() {
+  QueryBuilder<AlarmCollection, AlarmCollection, QAfterSortBy>
+      thenByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
   }
 }
 
-extension AlarmQueryWhereDistinct on QueryBuilder<Alarm, Alarm, QDistinct> {
-  QueryBuilder<Alarm, Alarm, QDistinct> distinctByAlarmOn() {
+extension AlarmCollectionQueryWhereDistinct
+    on QueryBuilder<AlarmCollection, AlarmCollection, QDistinct> {
+  QueryBuilder<AlarmCollection, AlarmCollection, QDistinct>
+      distinctByAlarmOn() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'alarmOn');
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QDistinct> distinctByDate(
+  QueryBuilder<AlarmCollection, AlarmCollection, QDistinct> distinctByDate(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'date', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QDistinct> distinctByDescription(
-      {bool caseSensitive = true}) {
+  QueryBuilder<AlarmCollection, AlarmCollection, QDistinct>
+      distinctByDescription({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QDistinct> distinctByTime(
+  QueryBuilder<AlarmCollection, AlarmCollection, QDistinct> distinctByTime(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'time', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Alarm, Alarm, QDistinct> distinctByTitle(
+  QueryBuilder<AlarmCollection, AlarmCollection, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
@@ -1061,38 +1126,40 @@ extension AlarmQueryWhereDistinct on QueryBuilder<Alarm, Alarm, QDistinct> {
   }
 }
 
-extension AlarmQueryProperty on QueryBuilder<Alarm, Alarm, QQueryProperty> {
-  QueryBuilder<Alarm, int, QQueryOperations> idProperty() {
+extension AlarmCollectionQueryProperty
+    on QueryBuilder<AlarmCollection, AlarmCollection, QQueryProperty> {
+  QueryBuilder<AlarmCollection, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Alarm, int, QQueryOperations> alarmOnProperty() {
+  QueryBuilder<AlarmCollection, int, QQueryOperations> alarmOnProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'alarmOn');
     });
   }
 
-  QueryBuilder<Alarm, String, QQueryOperations> dateProperty() {
+  QueryBuilder<AlarmCollection, String, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
     });
   }
 
-  QueryBuilder<Alarm, String, QQueryOperations> descriptionProperty() {
+  QueryBuilder<AlarmCollection, String, QQueryOperations>
+      descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
   }
 
-  QueryBuilder<Alarm, String, QQueryOperations> timeProperty() {
+  QueryBuilder<AlarmCollection, String, QQueryOperations> timeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'time');
     });
   }
 
-  QueryBuilder<Alarm, String, QQueryOperations> titleProperty() {
+  QueryBuilder<AlarmCollection, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

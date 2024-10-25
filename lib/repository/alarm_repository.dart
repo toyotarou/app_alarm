@@ -1,0 +1,24 @@
+import 'package:isar/isar.dart';
+
+import '../collections/alarm_collection.dart';
+
+class AlarmRepository {
+  ///
+  IsarCollection<AlarmCollection> getCollection({required Isar isar}) =>
+      isar.alarmCollections;
+
+  ///
+  Future<List<AlarmCollection>?> getAlarmList({required Isar isar}) async {
+    final IsarCollection<AlarmCollection> alarmCollection =
+        getCollection(isar: isar);
+    return alarmCollection.where().sortByDate().thenByTime().findAll();
+  }
+
+  ///
+  Future<void> inputAlarm(
+      {required Isar isar, required AlarmCollection alarm}) async {
+    final IsarCollection<AlarmCollection> alarmCollection =
+        getCollection(isar: isar);
+    await isar.writeTxn(() async => alarmCollection.put(alarm));
+  }
+}

@@ -5,15 +5,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:isar/isar.dart';
 
+import '../../collections/alarm_collection.dart';
 import '../../extensions/extensions.dart';
+import '../../repository/alarm_repository.dart';
 import '../../state/alarm/alarm.dart';
+import 'parts/error_dialog.dart';
 
 class DailyAlarmDisplayAlert extends ConsumerStatefulWidget {
   const DailyAlarmDisplayAlert(
-      {super.key, required this.date, required this.isar});
+      {super.key,
+      required this.date,
+      required this.isar,
+      required this.alarmMap});
 
   final DateTime date;
   final Isar isar;
+
+  final Map<String, List<AlarmCollection>> alarmMap;
 
   @override
   ConsumerState<DailyAlarmDisplayAlert> createState() =>
@@ -44,22 +52,21 @@ class _DailyAlarmDisplayAlertState
                 children: <Widget>[Text(widget.date.yyyymmdd), Container()],
               ),
               Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
-
               _displayInputParts(),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   Container(),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _inputAlarm();
+                    },
                     child: const Text('アラーム設定を追加する',
                         style: TextStyle(fontSize: 12)),
                   ),
                 ],
               ),
-
-              // Expanded(child: _displayMonthlySpendItemPlaceList()),
+              Expanded(child: _displayAlarmList()),
             ],
           ),
         ),
@@ -69,8 +76,8 @@ class _DailyAlarmDisplayAlertState
 
   ///
   Widget _displayInputParts() {
-    final inputTime =
-        ref.watch(alarmProvider.select((value) => value.inputTime));
+    final String inputTime =
+        ref.watch(alarmProvider.select((AlarmState value) => value.inputTime));
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -98,10 +105,10 @@ class _DailyAlarmDisplayAlertState
             child: Column(
               children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     IconButton(
                       onPressed: () => _showTP(),
-                      icon: Icon(Icons.timelapse),
+                      icon: const Icon(Icons.timelapse),
                     ),
                     Text((inputTime != '') ? inputTime : '--:--'),
                   ],
@@ -131,7 +138,7 @@ class _DailyAlarmDisplayAlertState
                     }
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   keyboardType: TextInputType.number,
                   controller: _descriptionEditingController,
@@ -167,6 +174,38 @@ class _DailyAlarmDisplayAlertState
   }
 
   ///
+  Widget _displayAlarmList() {
+    final List<Widget> list = <Widget>[];
+
+    widget.alarmMap[widget.date.yyyymmdd]?.forEach((AlarmCollection element) {
+      list.add(Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(element.time),
+            Text(element.title),
+          ],
+        ),
+      ));
+    });
+
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) => list[index],
+            childCount: list.length,
+          ),
+        ),
+      ],
+    );
+  }
+
+  ///
   Future<void> _showTP() async {
     final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
@@ -185,5 +224,55 @@ class _DailyAlarmDisplayAlertState
 
       await ref.read(alarmProvider.notifier).setInputTime(time: time);
     }
+  }
+
+  ///
+  Future<void> _inputAlarm() async {
+    bool errFlg = false;
+
+    if (_titleEditingController.text.trim() == '' ||
+        _descriptionEditingController.text.trim() == '') {
+      errFlg = true;
+    }
+
+    final String inputTime =
+        ref.watch(alarmProvider.select((AlarmState value) => value.inputTime));
+
+    if (inputTime == '') {
+      errFlg = true;
+    }
+
+    if (errFlg) {
+      // ignore: always_specify_types
+      Future.delayed(
+        Duration.zero,
+        () => error_dialog(
+            // ignore: use_build_context_synchronously
+            context: context,
+            title: '登録できません。',
+            content: '値を正しく入力してください。'),
+      );
+
+      return;
+    }
+
+    final AlarmCollection alarm = AlarmCollection()
+      ..date = widget.date.yyyymmdd
+      ..time = inputTime
+      ..title = _titleEditingController.text.trim()
+      ..description = _descriptionEditingController.text.trim()
+      ..alarmOn = 0;
+
+    await AlarmRepository()
+        .inputAlarm(isar: widget.isar, alarm: alarm)
+        // ignore: always_specify_types
+        .then((value) {
+      _titleEditingController.clear();
+      _descriptionEditingController.clear();
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    });
   }
 }

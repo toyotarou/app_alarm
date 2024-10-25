@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
+import '../collections/alarm_collection.dart';
 import '../extensions/extensions.dart';
+import '../repository/alarm_repository.dart';
 import '../state/calendars/calendars_notifier.dart';
 import '../state/calendars/calendars_response_state.dart';
 import '../state/holidays/holidays_notifier.dart';
@@ -40,9 +42,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final Utility _utility = Utility();
 
+  List<AlarmCollection>? alarmList = <AlarmCollection>[];
+
+  Map<String, List<AlarmCollection>> alarmMap =
+      <String, List<AlarmCollection>>{};
+
+  ///
+  void _init() {
+    _makeAlarmList();
+  }
+
   ///
   @override
   Widget build(BuildContext context) {
+    // ignore: always_specify_types
+    Future(_init);
+
     if (widget.baseYm != null) {
       // ignore: always_specify_types
       Future(() => ref
@@ -170,6 +185,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       widget: DailyAlarmDisplayAlert(
                         date: DateTime.parse('$generateYmd 00:00:00'),
                         isar: widget.isar,
+                        alarmMap: alarmMap,
                       ),
                     ),
             child: Container(
@@ -206,24 +222,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           constraints: BoxConstraints(
                               minHeight: context.screenSize.height / 10),
                           child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(),
-                                  Container(),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(),
-                                  Container(),
-                                ],
-                              ),
-                            ],
+                            children: displayAlarmList(date: generateYmd),
                           ),
                         ),
                       ],
@@ -261,5 +260,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           builder: (BuildContext context) => HomeScreen(
               isar: widget.isar, baseYm: calendarState.nextYearMonth)),
     );
+  }
+
+  ///
+  Future<void> _makeAlarmList() async {
+    alarmList = <AlarmCollection>[];
+    alarmMap = <String, List<AlarmCollection>>{};
+
+    await AlarmRepository()
+        .getAlarmList(isar: widget.isar)
+        .then((List<AlarmCollection>? value) {
+      if (mounted) {
+        setState(() {
+          alarmList = value;
+
+          if (value!.isNotEmpty) {
+            for (final AlarmCollection element in value) {
+              alarmMap[element.date] = <AlarmCollection>[];
+            }
+            for (final AlarmCollection element in value) {
+              alarmMap[element.date]?.add(element);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  ///
+  List<Widget> displayAlarmList({required String date}) {
+    final List<Widget> list = <Widget>[];
+
+    alarmMap[date]?.forEach((AlarmCollection element) {
+      list.add(Container(
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(element.time),
+            Container(),
+          ],
+        ),
+      ));
+    });
+
+    return list;
   }
 }

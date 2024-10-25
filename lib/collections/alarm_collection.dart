@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 
-part 'alarm.g.dart';
+part 'alarm_collection.g.dart';
 
 @collection
-class Alarm {
+class AlarmCollection {
   Id id = Isar.autoIncrement;
 
   @Index()

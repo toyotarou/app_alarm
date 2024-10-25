@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'collections/alarm.dart';
+import 'collections/alarm_collection.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
@@ -17,7 +17,9 @@ void main() async {
   final Directory dir = await getApplicationSupportDirectory();
 
   // ignore: always_specify_types
-  final Isar isar = await Isar.open([AlarmSchema], directory: dir.path);
+  final Isar isar =
+      // ignore: always_specify_types
+      await Isar.open([AlarmCollectionSchema], directory: dir.path);
 
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
