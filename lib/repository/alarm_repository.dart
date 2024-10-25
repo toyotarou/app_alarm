@@ -21,4 +21,11 @@ class AlarmRepository {
         getCollection(isar: isar);
     await isar.writeTxn(() async => alarmCollection.put(alarm));
   }
+
+  ///
+  Future<void> deleteAlarm({required Isar isar, required int id}) async {
+    final IsarCollection<AlarmCollection> alarmCollection =
+        getCollection(isar: isar);
+    await isar.writeTxn(() async => alarmCollection.delete(id));
+  }
 }

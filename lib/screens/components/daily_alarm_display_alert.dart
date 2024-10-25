@@ -179,15 +179,35 @@ class _DailyAlarmDisplayAlertState
 
     widget.alarmMap[widget.date.yyyymmdd]?.forEach((AlarmCollection element) {
       list.add(Container(
-        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(element.time),
-            Text(element.title),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 60, child: Text(element.time)),
+                Text(
+                  element.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                IconButton(
+                  onPressed: () {
+                    _showDeleteDialog(id: element.id);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ));
@@ -275,4 +295,37 @@ class _DailyAlarmDisplayAlertState
       }
     });
   }
+
+  ///
+  void _showDeleteDialog({required int id}) {
+    final Widget cancelButton = TextButton(
+        onPressed: () => Navigator.pop(context), child: const Text('いいえ'));
+
+    final Widget continueButton = TextButton(
+        onPressed: () {
+          _deleteAlarm(id: id);
+
+          Navigator.pop(context);
+        },
+        child: const Text('はい'));
+
+    final AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.blueGrey.withOpacity(0.3),
+      content: const Text('このデータを消去しますか？'),
+      actions: <Widget>[cancelButton, continueButton],
+    );
+
+    // ignore: inference_failure_on_function_invocation
+    showDialog(context: context, builder: (BuildContext context) => alert);
+  }
+
+  ///
+  Future<void> _deleteAlarm({required int id}) async => AlarmRepository()
+          .deleteAlarm(isar: widget.isar, id: id)
+          // ignore: always_specify_types
+          .then((value) {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      });
 }
