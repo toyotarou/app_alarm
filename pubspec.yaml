@@ -61,3 +61,22 @@ flutter:
   assets:
     - assets/images/
     - assets/fonts/
+
+  fonts:
+    - family: KiwiMaru
+      fonts:
+        - asset: assets/fonts/KiwiMaru-Light.ttf
+        - asset: assets/fonts/KiwiMaru-Medium.ttf
+        - asset: assets/fonts/KiwiMaru-Regular.ttf
+
+flutter_native_splash:
+  image: "assets/images/alarmbird.png"
+  color: "212121"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/ic_launcher.png"
+
+  adaptive_icon_background: "#212121"
+  adaptive_icon_foreground: "assets/images/ic_launcher.png"

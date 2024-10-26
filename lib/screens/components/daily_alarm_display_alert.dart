@@ -262,6 +262,18 @@ class _DailyAlarmDisplayAlertState
       errFlg = true;
     }
 
+    final DateTime dateTime1 = DateTime(
+      widget.date.yyyymmdd.split('-')[0].toInt(),
+      widget.date.yyyymmdd.split('-')[1].toInt(),
+      widget.date.yyyymmdd.split('-')[2].toInt(),
+      inputTime.split(':')[0].toInt(),
+      inputTime.split(':')[1].toInt(),
+    );
+
+    if (dateTime1.isBefore(DateTime.now())) {
+      errFlg = true;
+    }
+
     if (errFlg) {
       // ignore: always_specify_types
       Future.delayed(
