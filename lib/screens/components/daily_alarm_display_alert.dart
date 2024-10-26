@@ -179,6 +179,7 @@ class _DailyAlarmDisplayAlertState
 
     widget.alarmMap[widget.date.yyyymmdd]?.forEach((AlarmCollection element) {
       list.add(Container(
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
@@ -197,11 +198,30 @@ class _DailyAlarmDisplayAlertState
             ),
             Row(
               children: <Widget>[
-                IconButton(
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
+                    ref
+                        .read(alarmProvider.notifier)
+                        .setSelectedEditId(id: element.id);
+
+                    ref
+                        .read(alarmProvider.notifier)
+                        .setInputTime(time: element.time);
+
+                    _titleEditingController.text = element.title;
+                    _descriptionEditingController.text = element.description;
+                  },
+                  child: Icon(
+                    Icons.edit,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
                     _showDeleteDialog(id: element.id);
                   },
-                  icon: Icon(
+                  child: Icon(
                     Icons.delete,
                     color: Colors.white.withOpacity(0.4),
                   ),

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AlarmState {
   String get inputTime => throw _privateConstructorUsedError;
+  int get selectedEditId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AlarmStateCopyWith<AlarmState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $AlarmStateCopyWith<$Res> {
           AlarmState value, $Res Function(AlarmState) then) =
       _$AlarmStateCopyWithImpl<$Res, AlarmState>;
   @useResult
-  $Res call({String inputTime});
+  $Res call({String inputTime, int selectedEditId});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$AlarmStateCopyWithImpl<$Res, $Val extends AlarmState>
   @override
   $Res call({
     Object? inputTime = null,
+    Object? selectedEditId = null,
   }) {
     return _then(_value.copyWith(
       inputTime: null == inputTime
           ? _value.inputTime
           : inputTime // ignore: cast_nullable_to_non_nullable
               as String,
+      selectedEditId: null == selectedEditId
+          ? _value.selectedEditId
+          : selectedEditId // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$AlarmStateImplCopyWith<$Res>
       __$$AlarmStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String inputTime});
+  $Res call({String inputTime, int selectedEditId});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$AlarmStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? inputTime = null,
+    Object? selectedEditId = null,
   }) {
     return _then(_$AlarmStateImpl(
       inputTime: null == inputTime
           ? _value.inputTime
           : inputTime // ignore: cast_nullable_to_non_nullable
               as String,
+      selectedEditId: null == selectedEditId
+          ? _value.selectedEditId
+          : selectedEditId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -92,15 +103,18 @@ class __$$AlarmStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AlarmStateImpl implements _AlarmState {
-  const _$AlarmStateImpl({this.inputTime = ''});
+  const _$AlarmStateImpl({this.inputTime = '', this.selectedEditId = 0});
 
   @override
   @JsonKey()
   final String inputTime;
+  @override
+  @JsonKey()
+  final int selectedEditId;
 
   @override
   String toString() {
-    return 'AlarmState(inputTime: $inputTime)';
+    return 'AlarmState(inputTime: $inputTime, selectedEditId: $selectedEditId)';
   }
 
   @override
@@ -109,11 +123,13 @@ class _$AlarmStateImpl implements _AlarmState {
         (other.runtimeType == runtimeType &&
             other is _$AlarmStateImpl &&
             (identical(other.inputTime, inputTime) ||
-                other.inputTime == inputTime));
+                other.inputTime == inputTime) &&
+            (identical(other.selectedEditId, selectedEditId) ||
+                other.selectedEditId == selectedEditId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, inputTime);
+  int get hashCode => Object.hash(runtimeType, inputTime, selectedEditId);
 
   @JsonKey(ignore: true)
   @override
@@ -123,10 +139,13 @@ class _$AlarmStateImpl implements _AlarmState {
 }
 
 abstract class _AlarmState implements AlarmState {
-  const factory _AlarmState({final String inputTime}) = _$AlarmStateImpl;
+  const factory _AlarmState(
+      {final String inputTime, final int selectedEditId}) = _$AlarmStateImpl;
 
   @override
   String get inputTime;
+  @override
+  int get selectedEditId;
   @override
   @JsonKey(ignore: true)
   _$$AlarmStateImplCopyWith<_$AlarmStateImpl> get copyWith =>

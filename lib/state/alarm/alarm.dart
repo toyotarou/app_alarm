@@ -9,6 +9,7 @@ part 'alarm.g.dart';
 class AlarmState with _$AlarmState {
   const factory AlarmState({
     @Default('') String inputTime,
+    @Default(0) int selectedEditId,
   }) = _AlarmState;
 }
 
@@ -19,7 +20,10 @@ class Alarm extends _$Alarm {
   AlarmState build() => const AlarmState();
 
   ///
-  Future<void> setInputTime({required String time}) async {
-    state = state.copyWith(inputTime: time);
-  }
+  Future<void> setInputTime({required String time}) async =>
+      state = state.copyWith(inputTime: time);
+
+  ///
+  void setSelectedEditId({required int id}) =>
+      state = state.copyWith(selectedEditId: id);
 }
