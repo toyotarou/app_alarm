@@ -262,11 +262,6 @@ class _DailyAlarmDisplayAlertState
       errFlg = true;
     }
 
-
-
-
-
-
     final DateTime dateTime1 = DateTime(
       widget.date.yyyymmdd.split('-')[0].toInt(),
       widget.date.yyyymmdd.split('-')[1].toInt(),
