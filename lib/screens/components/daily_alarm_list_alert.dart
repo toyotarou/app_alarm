@@ -3,19 +3,22 @@ import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../controllers/alarm_setting/alarm_setting.dart';
 import '../../extensions/extensions.dart';
 import '../alarm_notification_screen.dart';
 
-class DailyAlarmListAlert extends StatefulWidget {
+class DailyAlarmListAlert extends ConsumerStatefulWidget {
   const DailyAlarmListAlert({super.key});
 
   @override
-  State<DailyAlarmListAlert> createState() => _DailyAlarmListAlertState();
+  ConsumerState<DailyAlarmListAlert> createState() =>
+      _DailyAlarmListAlertState();
 }
 
-class _DailyAlarmListAlertState extends State<DailyAlarmListAlert> {
+class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
   late List<AlarmSettings> alarms;
 
   // ignore: cancel_subscriptions
@@ -99,6 +102,17 @@ class _DailyAlarmListAlertState extends State<DailyAlarmListAlert> {
   ///
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final bool firstMove = ref.watch(alarmSettingProvider
+          .select((AlarmSettingState value) => value.firstMove));
+
+      if (!firstMove) {
+        if (alarms.isEmpty) {
+          Navigator.pop(context);
+        }
+      }
+    });
+
     return Scaffold(
       //
 

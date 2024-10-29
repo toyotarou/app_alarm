@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../collections/alarm_collection.dart';
+import '../controllers/alarm_setting/alarm_setting.dart';
 import '../controllers/calendars/calendars_notifier.dart';
 import '../controllers/calendars/calendars_response_state.dart';
 import '../controllers/holidays/holidays_notifier.dart';
@@ -94,10 +95,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         children: <Widget>[
           ElevatedButton(
             onPressed: () {
+              ref.read(alarmSettingProvider.notifier).setFirstMove(flag: true);
+
               AlarmDialog(
-                context: context,
-                widget: const DailyAlarmListAlert(),
-              );
+                  context: context, widget: const DailyAlarmListAlert());
             },
             child: const Text('aaaaa'),
           ),
@@ -197,10 +198,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           : Colors.white.withOpacity(0.1),
                   width: 3,
                 ),
-                color: _utility.getYoubiColor(
-                    date: generateYmd,
-                    youbiStr: youbiStr,
-                    holidayMap: _holidayMap),
+                color: (_calendarDays[i] == '')
+                    ? Colors.transparent
+                    : _utility.getYoubiColor(
+                        date: generateYmd,
+                        youbiStr: youbiStr,
+                        holidayMap: _holidayMap),
               ),
               child: (_calendarDays[i] == '')
                   ? const Text('')

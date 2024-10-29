@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AlarmSettingState {
   String get inputTime => throw _privateConstructorUsedError;
   int get selectedEditId => throw _privateConstructorUsedError;
+  bool get firstMove => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AlarmSettingStateCopyWith<AlarmSettingState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $AlarmSettingStateCopyWith<$Res> {
           AlarmSettingState value, $Res Function(AlarmSettingState) then) =
       _$AlarmSettingStateCopyWithImpl<$Res, AlarmSettingState>;
   @useResult
-  $Res call({String inputTime, int selectedEditId});
+  $Res call({String inputTime, int selectedEditId, bool firstMove});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$AlarmSettingStateCopyWithImpl<$Res, $Val extends AlarmSettingState>
   $Res call({
     Object? inputTime = null,
     Object? selectedEditId = null,
+    Object? firstMove = null,
   }) {
     return _then(_value.copyWith(
       inputTime: null == inputTime
@@ -58,6 +60,10 @@ class _$AlarmSettingStateCopyWithImpl<$Res, $Val extends AlarmSettingState>
           ? _value.selectedEditId
           : selectedEditId // ignore: cast_nullable_to_non_nullable
               as int,
+      firstMove: null == firstMove
+          ? _value.firstMove
+          : firstMove // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$AlarmSettingStateImplCopyWith<$Res>
       __$$AlarmSettingStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String inputTime, int selectedEditId});
+  $Res call({String inputTime, int selectedEditId, bool firstMove});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$AlarmSettingStateImplCopyWithImpl<$Res>
   $Res call({
     Object? inputTime = null,
     Object? selectedEditId = null,
+    Object? firstMove = null,
   }) {
     return _then(_$AlarmSettingStateImpl(
       inputTime: null == inputTime
@@ -96,6 +103,10 @@ class __$$AlarmSettingStateImplCopyWithImpl<$Res>
           ? _value.selectedEditId
           : selectedEditId // ignore: cast_nullable_to_non_nullable
               as int,
+      firstMove: null == firstMove
+          ? _value.firstMove
+          : firstMove // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -103,7 +114,8 @@ class __$$AlarmSettingStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AlarmSettingStateImpl implements _AlarmSettingState {
-  const _$AlarmSettingStateImpl({this.inputTime = '', this.selectedEditId = 0});
+  const _$AlarmSettingStateImpl(
+      {this.inputTime = '', this.selectedEditId = 0, this.firstMove = true});
 
   @override
   @JsonKey()
@@ -111,10 +123,13 @@ class _$AlarmSettingStateImpl implements _AlarmSettingState {
   @override
   @JsonKey()
   final int selectedEditId;
+  @override
+  @JsonKey()
+  final bool firstMove;
 
   @override
   String toString() {
-    return 'AlarmSettingState(inputTime: $inputTime, selectedEditId: $selectedEditId)';
+    return 'AlarmSettingState(inputTime: $inputTime, selectedEditId: $selectedEditId, firstMove: $firstMove)';
   }
 
   @override
@@ -125,11 +140,14 @@ class _$AlarmSettingStateImpl implements _AlarmSettingState {
             (identical(other.inputTime, inputTime) ||
                 other.inputTime == inputTime) &&
             (identical(other.selectedEditId, selectedEditId) ||
-                other.selectedEditId == selectedEditId));
+                other.selectedEditId == selectedEditId) &&
+            (identical(other.firstMove, firstMove) ||
+                other.firstMove == firstMove));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, inputTime, selectedEditId);
+  int get hashCode =>
+      Object.hash(runtimeType, inputTime, selectedEditId, firstMove);
 
   @JsonKey(ignore: true)
   @override
@@ -142,12 +160,15 @@ class _$AlarmSettingStateImpl implements _AlarmSettingState {
 abstract class _AlarmSettingState implements AlarmSettingState {
   const factory _AlarmSettingState(
       {final String inputTime,
-      final int selectedEditId}) = _$AlarmSettingStateImpl;
+      final int selectedEditId,
+      final bool firstMove}) = _$AlarmSettingStateImpl;
 
   @override
   String get inputTime;
   @override
   int get selectedEditId;
+  @override
+  bool get firstMove;
   @override
   @JsonKey(ignore: true)
   _$$AlarmSettingStateImplCopyWith<_$AlarmSettingStateImpl> get copyWith =>

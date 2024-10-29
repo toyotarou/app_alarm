@@ -10,10 +10,11 @@ class AlarmSettingState with _$AlarmSettingState {
   const factory AlarmSettingState({
     @Default('') String inputTime,
     @Default(0) int selectedEditId,
+    @Default(true) bool firstMove,
   }) = _AlarmSettingState;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AlarmSetting extends _$AlarmSetting {
   ///
   @override
@@ -26,4 +27,8 @@ class AlarmSetting extends _$AlarmSetting {
   ///
   void setSelectedEditId({required int id}) =>
       state = state.copyWith(selectedEditId: id);
+
+  ///
+  void setFirstMove({required bool flag}) =>
+      state = state.copyWith(firstMove: flag);
 }
