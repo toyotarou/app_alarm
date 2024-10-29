@@ -14,6 +14,7 @@ import '../utilities/utilities.dart';
 import 'components/daily_alarm_input_alert.dart';
 import 'components/daily_alarm_list_alert.dart';
 import 'components/parts/alarm_dialog.dart';
+import 'components/parts/back_ground_image.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends ConsumerStatefulWidget {
@@ -91,18 +92,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         centerTitle: false,
         backgroundColor: Colors.transparent,
       ),
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              ref.read(alarmSettingProvider.notifier).setFirstMove(flag: true);
-
-              AlarmDialog(
-                  context: context, widget: const DailyAlarmListAlert());
-            },
-            child: const Text('aaaaa'),
+          const BackGroundImage(),
+          Container(
+            width: context.screenSize.width,
+            height: context.screenSize.height,
+            decoration: BoxDecoration(color: Colors.black.withOpacity(0.7)),
           ),
-          Expanded(child: _getCalendar()),
+          Column(
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  ref
+                      .read(alarmSettingProvider.notifier)
+                      .setFirstMove(flag: true);
+
+                  AlarmDialog(
+                      context: context, widget: const DailyAlarmListAlert());
+                },
+                child: const Text('aaaaa'),
+              ),
+              Expanded(child: _getCalendar()),
+            ],
+          ),
         ],
       ),
     );
@@ -173,10 +186,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _calendarDays[i].toInt())
               .youbiStr;
 
+      final String beforeYmd = (_calendarDays[i] == '')
+          ? ''
+          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month,
+                  _calendarDays[i].toInt() + 1)
+              .yyyymmdd;
+
       list.add(
         Expanded(
           child: GestureDetector(
-            onTap: (_calendarDays[i] == '')
+            onTap: (_calendarDays[i] == '' ||
+                    DateTime.parse('$beforeYmd 00:00:00')
+                        .isBefore(DateTime.now()))
                 ? null
                 : () => AlarmDialog(
                       context: context,
@@ -200,10 +221,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 color: (_calendarDays[i] == '')
                     ? Colors.transparent
-                    : _utility.getYoubiColor(
-                        date: generateYmd,
-                        youbiStr: youbiStr,
-                        holidayMap: _holidayMap),
+                    : (DateTime.parse('$beforeYmd 00:00:00')
+                            .isBefore(DateTime.now()))
+                        ? Colors.white.withOpacity(0.1)
+                        : _utility.getYoubiColor(
+                            date: generateYmd,
+                            youbiStr: youbiStr,
+                            holidayMap: _holidayMap),
               ),
               child: (_calendarDays[i] == '')
                   ? const Text('')
