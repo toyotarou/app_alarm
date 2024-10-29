@@ -12,7 +12,6 @@ import '../extensions/extensions.dart';
 import '../repository/alarm_repository.dart';
 import '../utilities/utilities.dart';
 import 'components/daily_alarm_input_alert.dart';
-import 'components/daily_alarm_list_alert.dart';
 import 'components/parts/alarm_dialog.dart';
 import 'components/parts/back_ground_image.dart';
 
@@ -102,17 +101,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           Column(
             children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  ref
-                      .read(alarmSettingProvider.notifier)
-                      .setFirstMove(flag: true);
+              // ElevatedButton(
+              //   onPressed: () {
+              //     ref
+              //         .read(alarmSettingProvider.notifier)
+              //         .setFirstMove(flag: true);
+              //
+              //     AlarmDialog(
+              //         context: context, widget: const DailyAlarmListAlert());
+              //   },
+              //   child: const Text('aaaaa'),
+              // ),
+              //
+              //
+              //
+              //
 
-                  AlarmDialog(
-                      context: context, widget: const DailyAlarmListAlert());
-                },
-                child: const Text('aaaaa'),
-              ),
               Expanded(child: _getCalendar()),
             ],
           ),
@@ -199,14 +203,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     DateTime.parse('$beforeYmd 00:00:00')
                         .isBefore(DateTime.now()))
                 ? null
-                : () => AlarmDialog(
+                : () {
+                    ref
+                        .read(alarmSettingProvider.notifier)
+                        .setInputTime(time: '');
+
+                    AlarmDialog(
                       context: context,
                       widget: DailyAlarmInputAlert(
                         date: DateTime.parse('$generateYmd 00:00:00'),
                         isar: widget.isar,
                         alarmMap: alarmMap,
                       ),
-                    ),
+                    );
+                  },
             child: Container(
               margin: const EdgeInsets.all(1),
               padding: const EdgeInsets.all(2),

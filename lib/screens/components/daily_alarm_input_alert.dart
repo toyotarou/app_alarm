@@ -10,6 +10,8 @@ import '../../controllers/alarm_setting/alarm_setting.dart';
 import '../../extensions/extensions.dart';
 import '../../repository/alarm_repository.dart';
 
+import 'daily_alarm_list_alert.dart';
+import 'parts/alarm_dialog.dart';
 import 'parts/error_dialog.dart';
 
 class DailyAlarmInputAlert extends ConsumerStatefulWidget {
@@ -34,9 +36,13 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   final TextEditingController _descriptionEditingController =
       TextEditingController();
 
+  List<AlarmCollection> setAbleAlarmList = <AlarmCollection>[];
+
   ///
   @override
   Widget build(BuildContext context) {
+    makeSetAbleAlarmList();
+
     final int selectedEditId = ref.watch(alarmSettingProvider
         .select((AlarmSettingState value) => value.selectedEditId));
 
@@ -75,33 +81,67 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                 ],
               ),
               Expanded(child: _displayAlarmList()),
-              if (widget.alarmMap.isNotEmpty) ...<Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(),
-                    TextButton(
-                      onPressed: () {
-                        // AlarmDialog(
-                        //   context: context,
-                        //   widget:
-                        //       AlarmSettingListAlert(alarmMap: widget.alarmMap),
-                        // );
-                        //
-                        //
-                        //
-                      },
-                      child: const Text('アラームを設定する',
-                          style: TextStyle(fontSize: 12)),
-                    ),
-                  ],
-                ),
-              ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(),
+                  TextButton(
+                    onPressed: () {
+                      if (setAbleAlarmList.isEmpty) {
+                        // ignore: always_specify_types
+                        Future.delayed(
+                          Duration.zero,
+                          () => error_dialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            title: '設定できません。',
+                            content: 'アラーム設定が存在しません。',
+                          ),
+                        );
+
+                        return;
+                      }
+
+                      ref
+                          .read(alarmSettingProvider.notifier)
+                          .setFirstMove(flag: true);
+
+                      AlarmDialog(
+                        context: context,
+                        widget:
+                            DailyAlarmListAlert(alarmList: setAbleAlarmList),
+                      );
+                    },
+                    child:
+                        const Text('アラームを設定する', style: TextStyle(fontSize: 12)),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  ///
+  void makeSetAbleAlarmList() {
+    setAbleAlarmList = <AlarmCollection>[];
+
+    widget.alarmMap[widget.date.yyyymmdd]?.forEach((AlarmCollection element) {
+      final DateTime dateTime = DateTime(
+        element.date.split('-')[0].toInt(),
+        element.date.split('-')[1].toInt(),
+        element.date.split('-')[2].toInt(),
+        element.time.split(':')[0].toInt(),
+        element.time.split(':')[1].toInt(),
+      );
+
+      if (dateTime.isBefore(DateTime.now())) {
+      } else {
+        setAbleAlarmList.add(element);
+      }
+    });
   }
 
   ///
@@ -301,7 +341,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
       errFlg = true;
     }
 
-    final DateTime dateTime1 = DateTime(
+    final DateTime dateTime = DateTime(
       widget.date.yyyymmdd.split('-')[0].toInt(),
       widget.date.yyyymmdd.split('-')[1].toInt(),
       widget.date.yyyymmdd.split('-')[2].toInt(),
@@ -309,7 +349,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
       inputTime.split(':')[1].toInt(),
     );
 
-    if (dateTime1.isBefore(DateTime.now())) {
+    if (dateTime.isBefore(DateTime.now())) {
       errFlg = true;
     }
 

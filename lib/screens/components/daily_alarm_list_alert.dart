@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../collections/alarm_collection.dart';
 import '../../controllers/alarm_setting/alarm_setting.dart';
 import '../../extensions/extensions.dart';
 import '../alarm_notification_screen.dart';
 
 class DailyAlarmListAlert extends ConsumerStatefulWidget {
-  const DailyAlarmListAlert({super.key});
+  const DailyAlarmListAlert({super.key, required this.alarmList});
+
+  final List<AlarmCollection> alarmList;
 
   @override
   ConsumerState<DailyAlarmListAlert> createState() =>
@@ -130,51 +133,26 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
                 ),
               ),
             ),
-            Row(
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () async {
-                    final DateTime alarmDateTime =
-                        DateTime.now().add(const Duration(seconds: 10));
+            ElevatedButton(
+              onPressed: () async {
+                for (final AlarmCollection element in widget.alarmList) {
+                  final DateTime dateTime = DateTime(
+                    element.date.split('-')[0].toInt(),
+                    element.date.split('-')[1].toInt(),
+                    element.date.split('-')[2].toInt(),
+                    element.time.split(':')[0].toInt(),
+                    element.time.split(':')[1].toInt(),
+                  );
 
-                    setAlarm(alarmId: 1, alarmDateTime: alarmDateTime);
-                  },
-                  child: const Text('10s'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    final DateTime alarmDateTime =
-                        DateTime.now().add(const Duration(seconds: 20));
-
-                    setAlarm(alarmId: 2, alarmDateTime: alarmDateTime);
-                  },
-                  child: const Text('20s'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    for (final Map<String, Object> element
-                        in <Map<String, Object>>[
-                      <String, Object>{
-                        'id': 1,
-                        'time': DateTime.now().add(const Duration(seconds: 10))
-                      },
-                      <String, Object>{
-                        'id': 2,
-                        'time': DateTime.now().add(const Duration(seconds: 20))
-                      },
-                    ]) {
-                      setAlarm(
-                        alarmId: element['id'].toString().toInt(),
-                        alarmDateTime:
-                            DateTime.parse(element['time'].toString()),
-                      );
-                    }
-                  },
-                  child: const Text('renzoku'),
-                ),
-              ],
+                  setAlarm(
+                    alarmId: element.id,
+                    alarmDateTime: dateTime,
+                    title: element.title,
+                    description: element.description,
+                  );
+                }
+              },
+              child: const Text('set'),
             ),
           ],
         ),
@@ -183,8 +161,12 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
   }
 
   ///
-  Future<void> setAlarm(
-      {required int alarmId, required DateTime alarmDateTime}) async {
+  Future<void> setAlarm({
+    required int alarmId,
+    required DateTime alarmDateTime,
+    required String title,
+    required String description,
+  }) async {
     final AlarmSettings alarmSettings = AlarmSettings(
       id: alarmId,
       dateTime: alarmDateTime,
@@ -195,10 +177,8 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
       vibrate: true,
       volume: 0.8,
       fadeDuration: 3.0,
-      notificationSettings: const NotificationSettings(
-        title: 'This is the title',
-        body: 'This is the body',
-      ),
+      notificationSettings:
+          NotificationSettings(title: title, body: description),
     );
 
     await Alarm.set(alarmSettings: alarmSettings);
