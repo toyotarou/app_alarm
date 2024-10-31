@@ -43,14 +43,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final Utility _utility = Utility();
 
-  List<AlarmCollection>? alarmList = <AlarmCollection>[];
+  List<AlarmCollection>? alarmCollectionList = <AlarmCollection>[];
 
   Map<String, List<AlarmCollection>> alarmMap =
       <String, List<AlarmCollection>>{};
 
   ///
   void _init() {
-    _makeAlarmList();
+    _makeAlarmCollectionList();
   }
 
   ///
@@ -213,7 +213,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       widget: DailyAlarmInputAlert(
                         date: DateTime.parse('$generateYmd 00:00:00'),
                         isar: widget.isar,
-                        alarmMap: alarmMap,
                       ),
                     );
                   },
@@ -319,8 +318,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   ///
-  Future<void> _makeAlarmList() async {
-    alarmList = <AlarmCollection>[];
+  Future<void> _makeAlarmCollectionList() async {
+    alarmCollectionList = <AlarmCollection>[];
     alarmMap = <String, List<AlarmCollection>>{};
 
     await AlarmRepository()
@@ -328,7 +327,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         .then((List<AlarmCollection>? value) {
       if (mounted) {
         setState(() {
-          alarmList = value;
+          alarmCollectionList = value;
 
           if (value!.isNotEmpty) {
             for (final AlarmCollection element in value) {

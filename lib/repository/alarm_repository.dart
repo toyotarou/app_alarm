@@ -23,6 +23,14 @@ class AlarmRepository {
   }
 
   ///
+  Future<List<AlarmCollection>?> getDateAlarmList(
+      {required Isar isar, required String date}) async {
+    final IsarCollection<AlarmCollection> alarmCollection =
+        getCollection(isar: isar);
+    return alarmCollection.filter().dateEqualTo(date).sortByTime().findAll();
+  }
+
+  ///
   Future<void> inputAlarm(
       {required Isar isar, required AlarmCollection alarm}) async {
     final IsarCollection<AlarmCollection> alarmCollection =

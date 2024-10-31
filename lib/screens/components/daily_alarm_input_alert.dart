@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,15 +17,10 @@ import 'parts/error_dialog.dart';
 
 class DailyAlarmInputAlert extends ConsumerStatefulWidget {
   const DailyAlarmInputAlert(
-      {super.key,
-      required this.date,
-      required this.isar,
-      required this.alarmMap});
+      {super.key, required this.date, required this.isar});
 
   final DateTime date;
   final Isar isar;
-
-  final Map<String, List<AlarmCollection>> alarmMap;
 
   @override
   ConsumerState<DailyAlarmInputAlert> createState() =>
@@ -36,12 +32,35 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   final TextEditingController _descriptionEditingController =
       TextEditingController();
 
+  List<AlarmCollection>? dateAlarmCollectionList = <AlarmCollection>[];
+
   List<AlarmCollection> setAbleAlarmList = <AlarmCollection>[];
+
+  List<AlarmSettings> alarms = <AlarmSettings>[];
+
+  ///
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      alarms = Alarm.getAlarms();
+
+      alarms.sort((AlarmSettings a, AlarmSettings b) =>
+          a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+    });
+  }
+
+  ///
+  void _init() {
+    _makeDateAlarmCollectionList();
+  }
 
   ///
   @override
   Widget build(BuildContext context) {
-    makeSetAbleAlarmList();
+    // ignore: always_specify_types
+    Future(_init);
 
     final int selectedEditId = ref.watch(alarmSettingProvider
         .select((AlarmSettingState value) => value.selectedEditId));
@@ -125,21 +144,31 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   }
 
   ///
-  void makeSetAbleAlarmList() {
-    setAbleAlarmList = <AlarmCollection>[];
+  Future<void> _makeDateAlarmCollectionList() async {
+    AlarmRepository()
+        .getDateAlarmList(isar: widget.isar, date: widget.date.yyyymmdd)
+        .then((List<AlarmCollection>? value) {
+      if (mounted) {
+        setState(() {
+          dateAlarmCollectionList = value;
 
-    widget.alarmMap[widget.date.yyyymmdd]?.forEach((AlarmCollection element) {
-      final DateTime dateTime = DateTime(
-        element.date.split('-')[0].toInt(),
-        element.date.split('-')[1].toInt(),
-        element.date.split('-')[2].toInt(),
-        element.time.split(':')[0].toInt(),
-        element.time.split(':')[1].toInt(),
-      );
+          if (value!.isNotEmpty) {
+            for (final AlarmCollection element in value) {
+              final DateTime dateTime = DateTime(
+                element.date.split('-')[0].toInt(),
+                element.date.split('-')[1].toInt(),
+                element.date.split('-')[2].toInt(),
+                element.time.split(':')[0].toInt(),
+                element.time.split(':')[1].toInt(),
+              );
 
-      if (dateTime.isBefore(DateTime.now())) {
-      } else {
-        setAbleAlarmList.add(element);
+              if (dateTime.isBefore(DateTime.now())) {
+              } else {
+                setAbleAlarmList.add(element);
+              }
+            }
+          }
+        });
       }
     });
   }
@@ -229,7 +258,20 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   Widget _displayAlarmList() {
     final List<Widget> list = <Widget>[];
 
-    widget.alarmMap[widget.date.yyyymmdd]?.forEach((AlarmCollection element) {
+    dateAlarmCollectionList?.forEach((AlarmCollection element) {
+      //---------------------------------------//
+      final Map<String, int> alarmIdMap = <String, int>{};
+
+      for (final AlarmSettings element in alarms) {
+        final List<String> exDateTime = element.dateTime.toString().split(' ');
+
+        if (exDateTime[0] == widget.date.yyyymmdd) {
+          final List<String> exTime = exDateTime[1].split(':');
+          alarmIdMap['${exTime[0]}:${exTime[1]}'] = element.id;
+        }
+      }
+      //---------------------------------------//
+
       list.add(Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -240,7 +282,15 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(width: 60, child: Text(element.time)),
+                SizedBox(
+                    width: 60,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(element.time),
+                        Text(alarmIdMap[element.time].toString()),
+                      ],
+                    )),
                 Text(
                   element.title,
                   maxLines: 1,
@@ -250,6 +300,18 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
             ),
             Row(
               children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    if (alarmIdMap[element.time] != null) {
+                      Alarm.stop(alarmIdMap[element.time]!);
+                    }
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                ),
+                const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
                     ref
