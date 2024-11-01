@@ -16,21 +16,18 @@ import 'parts/alarm_dialog.dart';
 import 'parts/error_dialog.dart';
 
 class DailyAlarmInputAlert extends ConsumerStatefulWidget {
-  const DailyAlarmInputAlert(
-      {super.key, required this.date, required this.isar});
+  const DailyAlarmInputAlert({super.key, required this.date, required this.isar});
 
   final DateTime date;
   final Isar isar;
 
   @override
-  ConsumerState<DailyAlarmInputAlert> createState() =>
-      _DailyAlarmDisplayAlertState();
+  ConsumerState<DailyAlarmInputAlert> createState() => _DailyAlarmDisplayAlertState();
 }
 
 class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   final TextEditingController _titleEditingController = TextEditingController();
-  final TextEditingController _descriptionEditingController =
-      TextEditingController();
+  final TextEditingController _descriptionEditingController = TextEditingController();
 
   List<AlarmCollection>? dateAlarmCollectionList = <AlarmCollection>[];
 
@@ -46,8 +43,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
     setState(() {
       alarms = Alarm.getAlarms();
 
-      alarms.sort((AlarmSettings a, AlarmSettings b) =>
-          a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+      alarms.sort((AlarmSettings a, AlarmSettings b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
     });
   }
 
@@ -62,8 +58,8 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
     // ignore: always_specify_types
     Future(_init);
 
-    final int selectedEditId = ref.watch(alarmSettingProvider
-        .select((AlarmSettingState value) => value.selectedEditId));
+    final int selectedEditId =
+        ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.selectedEditId));
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -88,14 +84,12 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                   if (selectedEditId != 0)
                     TextButton(
                       onPressed: () => _updateAlarm(),
-                      child: const Text('アラーム設定を更新する',
-                          style: TextStyle(fontSize: 12)),
+                      child: const Text('アラーム設定を更新する', style: TextStyle(fontSize: 12)),
                     )
                   else
                     TextButton(
                       onPressed: () => _inputAlarm(),
-                      child: const Text('アラーム設定を追加する',
-                          style: TextStyle(fontSize: 12)),
+                      child: const Text('アラーム設定を追加する', style: TextStyle(fontSize: 12)),
                     ),
                 ],
               ),
@@ -121,18 +115,14 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                         return;
                       }
 
-                      ref
-                          .read(alarmSettingProvider.notifier)
-                          .setFirstMove(flag: true);
+                      ref.read(alarmSettingProvider.notifier).setFirstMove(flag: true);
 
                       AlarmDialog(
                         context: context,
-                        widget:
-                            DailyAlarmListAlert(alarmList: setAbleAlarmList),
+                        widget: DailyAlarmListAlert(alarmList: setAbleAlarmList),
                       );
                     },
-                    child:
-                        const Text('アラームを設定する', style: TextStyle(fontSize: 12)),
+                    child: const Text('アラームを設定する', style: TextStyle(fontSize: 12)),
                   ),
                 ],
               ),
@@ -175,16 +165,12 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
 
   ///
   Widget _displayInputParts() {
-    final String inputTime = ref.watch(alarmSettingProvider
-        .select((AlarmSettingState value) => value.inputTime));
+    final String inputTime = ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.inputTime));
 
     return DecoratedBox(
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
-          BoxShadow(
-              blurRadius: 24,
-              spreadRadius: 16,
-              color: Colors.black.withOpacity(0.2)),
+          BoxShadow(blurRadius: 24, spreadRadius: 16, color: Colors.black.withOpacity(0.2)),
         ],
       ),
       child: ClipRRect(
@@ -198,8 +184,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
-              border:
-                  Border.all(color: Colors.white.withOpacity(0.2), width: 1.5),
+              border: Border.all(color: Colors.white.withOpacity(0.2), width: 1.5),
             ),
             child: Column(
               children: <Widget>[
@@ -216,34 +201,28 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                   controller: _titleEditingController,
                   decoration: const InputDecoration(
                     isDense: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                     hintText: 'タイトル',
                     filled: true,
                     border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white54)),
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white54)),
                   ),
                   style: const TextStyle(fontSize: 13, color: Colors.white),
-                  onTapOutside: (PointerDownEvent event) =>
-                      FocusManager.instance.primaryFocus?.unfocus(),
+                  onTapOutside: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: _descriptionEditingController,
                   decoration: const InputDecoration(
                     isDense: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                     hintText: '内容',
                     filled: true,
                     border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white54)),
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white54)),
                   ),
                   style: const TextStyle(fontSize: 13, color: Colors.white),
-                  onTapOutside: (PointerDownEvent event) =>
-                      FocusManager.instance.primaryFocus?.unfocus(),
+                  onTapOutside: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
                   maxLines: 5,
                 ),
               ],
@@ -274,23 +253,13 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
 
       list.add(Container(
         padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(
-                    width: 60,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(element.time),
-                        Text(alarmIdMap[element.time].toString()),
-                      ],
-                    )),
+                SizedBox(width: 60, child: Text(element.time)),
                 Text(
                   element.title,
                   maxLines: 1,
@@ -307,20 +276,18 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                     }
                   },
                   child: Icon(
-                    Icons.close,
-                    color: Colors.white.withOpacity(0.4),
+                    Icons.timelapse,
+                    color: (alarmIdMap[element.time] != null)
+                        ? Colors.yellowAccent.withOpacity(0.4)
+                        : Colors.white.withOpacity(0.4),
                   ),
                 ),
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
-                    ref
-                        .read(alarmSettingProvider.notifier)
-                        .setSelectedEditId(id: element.id);
+                    ref.read(alarmSettingProvider.notifier).setSelectedEditId(id: element.id);
 
-                    ref
-                        .read(alarmSettingProvider.notifier)
-                        .setInputTime(time: element.time);
+                    ref.read(alarmSettingProvider.notifier).setInputTime(time: element.time);
 
                     _titleEditingController.text = element.title;
                     _descriptionEditingController.text = element.description;
@@ -361,15 +328,12 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
 
   ///
   Future<void> _showTP() async {
-    final String inputTime = ref.watch(alarmSettingProvider
-        .select((AlarmSettingState value) => value.inputTime));
+    final String inputTime = ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.inputTime));
 
     final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: (inputTime != '')
-          ? TimeOfDay(
-              hour: inputTime.split(':')[0].toInt(),
-              minute: inputTime.split(':')[1].toInt())
+          ? TimeOfDay(hour: inputTime.split(':')[0].toInt(), minute: inputTime.split(':')[1].toInt())
           : const TimeOfDay(hour: 8, minute: 0),
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
@@ -391,13 +355,11 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   Future<void> _inputAlarm() async {
     bool errFlg = false;
 
-    if (_titleEditingController.text.trim() == '' ||
-        _descriptionEditingController.text.trim() == '') {
+    if (_titleEditingController.text.trim() == '' || _descriptionEditingController.text.trim() == '') {
       errFlg = true;
     }
 
-    final String inputTime = ref.watch(alarmSettingProvider
-        .select((AlarmSettingState value) => value.inputTime));
+    final String inputTime = ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.inputTime));
 
     if (inputTime == '') {
       errFlg = true;
@@ -453,13 +415,11 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   Future<void> _updateAlarm() async {
     bool errFlg = false;
 
-    if (_titleEditingController.text.trim() == '' ||
-        _descriptionEditingController.text.trim() == '') {
+    if (_titleEditingController.text.trim() == '' || _descriptionEditingController.text.trim() == '') {
       errFlg = true;
     }
 
-    final String inputTime = ref.watch(alarmSettingProvider
-        .select((AlarmSettingState value) => value.inputTime));
+    final String inputTime = ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.inputTime));
 
     if (inputTime == '') {
       errFlg = true;
@@ -491,13 +451,11 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
       return;
     }
 
-    final int selectedEditId = ref.watch(alarmSettingProvider
-        .select((AlarmSettingState value) => value.selectedEditId));
+    final int selectedEditId =
+        ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.selectedEditId));
 
     await widget.isar.writeTxn(() async {
-      await AlarmRepository()
-          .getAlarm(isar: widget.isar, id: selectedEditId)
-          .then((AlarmCollection? value) async {
+      await AlarmRepository().getAlarm(isar: widget.isar, id: selectedEditId).then((AlarmCollection? value) async {
         value!
           ..date = widget.date.yyyymmdd
           ..time = inputTime
@@ -521,8 +479,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
 
   ///
   void _showDeleteDialog({required int id}) {
-    final Widget cancelButton = TextButton(
-        onPressed: () => Navigator.pop(context), child: const Text('いいえ'));
+    final Widget cancelButton = TextButton(onPressed: () => Navigator.pop(context), child: const Text('いいえ'));
 
     final Widget continueButton = TextButton(
         onPressed: () {

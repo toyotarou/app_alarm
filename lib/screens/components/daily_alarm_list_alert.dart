@@ -17,8 +17,7 @@ class DailyAlarmListAlert extends ConsumerStatefulWidget {
   final List<AlarmCollection> alarmList;
 
   @override
-  ConsumerState<DailyAlarmListAlert> createState() =>
-      _DailyAlarmListAlertState();
+  ConsumerState<DailyAlarmListAlert> createState() => _DailyAlarmListAlertState();
 }
 
 class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
@@ -69,12 +68,10 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
         print('Requesting schedule exact alarm permission...');
       }
 
-      final PermissionStatus res =
-          await Permission.scheduleExactAlarm.request();
+      final PermissionStatus res = await Permission.scheduleExactAlarm.request();
 
       if (kDebugMode) {
-        print(
-            'Schedule exact alarm permission ${res.isGranted ? '' : 'not'} granted.');
+        print('Schedule exact alarm permission ${res.isGranted ? '' : 'not'} granted.');
       }
     }
   }
@@ -84,8 +81,7 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
     setState(() {
       alarms = Alarm.getAlarms();
 
-      alarms.sort((AlarmSettings a, AlarmSettings b) =>
-          a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+      alarms.sort((AlarmSettings a, AlarmSettings b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
     });
   }
 
@@ -94,8 +90,7 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
     await Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) =>
-            AlarmNotificationScreen(alarmSettings: alarmSettings),
+        builder: (BuildContext context) => AlarmNotificationScreen(alarmSettings: alarmSettings),
       ),
     );
 
@@ -106,8 +101,7 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final bool firstMove = ref.watch(alarmSettingProvider
-          .select((AlarmSettingState value) => value.firstMove));
+      final bool firstMove = ref.watch(alarmSettingProvider.select((AlarmSettingState value) => value.firstMove));
 
       if (!firstMove) {
         if (alarms.isEmpty) {
@@ -119,42 +113,45 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
     return Scaffold(
       //
 
+      backgroundColor: Colors.transparent,
+
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: ListView(
-                // ignore: always_specify_types
-                children: List.generate(
-                  alarms.length,
-                  (int index) => ListTile(
-                    title: Text(alarms[index].dateTime.toString()),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView(
+                  // ignore: always_specify_types
+                  children: List.generate(
+                    alarms.length,
+                    (int index) => Text(alarms[index].dateTime.toString()),
                   ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                for (final AlarmCollection element in widget.alarmList) {
-                  final DateTime dateTime = DateTime(
-                    element.date.split('-')[0].toInt(),
-                    element.date.split('-')[1].toInt(),
-                    element.date.split('-')[2].toInt(),
-                    element.time.split(':')[0].toInt(),
-                    element.time.split(':')[1].toInt(),
-                  );
+              ElevatedButton(
+                onPressed: () async {
+                  for (final AlarmCollection element in widget.alarmList) {
+                    final DateTime dateTime = DateTime(
+                      element.date.split('-')[0].toInt(),
+                      element.date.split('-')[1].toInt(),
+                      element.date.split('-')[2].toInt(),
+                      element.time.split(':')[0].toInt(),
+                      element.time.split(':')[1].toInt(),
+                    );
 
-                  setAlarm(
-                    alarmId: element.id,
-                    alarmDateTime: dateTime,
-                    title: element.title,
-                    description: element.description,
-                  );
-                }
-              },
-              child: const Text('set'),
-            ),
-          ],
+                    setAlarm(
+                      alarmId: element.id,
+                      alarmDateTime: dateTime,
+                      title: element.title,
+                      description: element.description,
+                    );
+                  }
+                },
+                child: const Text('set'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -177,8 +174,7 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
       vibrate: true,
       volume: 0.8,
       fadeDuration: 3.0,
-      notificationSettings:
-          NotificationSettings(title: title, body: description),
+      notificationSettings: NotificationSettings(title: title, body: description),
     );
 
     await Alarm.set(alarmSettings: alarmSettings);
