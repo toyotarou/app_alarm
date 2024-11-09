@@ -106,6 +106,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         centerTitle: false,
         backgroundColor: Colors.transparent,
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                // ignore: inference_failure_on_instance_creation, always_specify_types
+                MaterialPageRoute(
+                  builder: (BuildContext context) => HomeScreen(isar: widget.isar, baseYm: widget.baseYm),
+                ),
+              );
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Stack(
         children: <Widget>[
