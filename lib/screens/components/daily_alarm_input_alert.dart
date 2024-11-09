@@ -260,11 +260,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
             Row(
               children: <Widget>[
                 SizedBox(width: 60, child: Text(element.time)),
-                Text(
-                  element.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text(element.title, maxLines: 1, overflow: TextOverflow.ellipsis),
               ],
             ),
             Row(
@@ -274,6 +270,8 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                     if (alarmIdMap[element.time] != null) {
                       Alarm.stop(alarmIdMap[element.time]!);
                     }
+
+                    Navigator.pop(context);
                   },
                   child: Icon(
                     Icons.timelapse,
@@ -292,20 +290,12 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                     _titleEditingController.text = element.title;
                     _descriptionEditingController.text = element.description;
                   },
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white.withOpacity(0.4),
-                  ),
+                  child: Icon(Icons.edit, color: Colors.white.withOpacity(0.4)),
                 ),
                 const SizedBox(width: 10),
                 GestureDetector(
-                  onTap: () {
-                    _showDeleteDialog(id: element.id);
-                  },
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.white.withOpacity(0.4),
-                  ),
+                  onTap: () => _showDeleteDialog(id: element.id),
+                  child: Icon(Icons.delete, color: Colors.white.withOpacity(0.4)),
                 ),
               ],
             )
@@ -317,10 +307,8 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
     return CustomScrollView(
       slivers: <Widget>[
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) => list[index],
-            childCount: list.length,
-          ),
+          delegate:
+              SliverChildBuilderDelegate((BuildContext context, int index) => list[index], childCount: list.length),
         ),
       ],
     );
@@ -500,10 +488,9 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   }
 
   ///
-  Future<void> _deleteAlarm({required int id}) async => AlarmRepository()
-          .deleteAlarm(isar: widget.isar, id: id)
-          // ignore: always_specify_types
-          .then((value) {
+  Future<void> _deleteAlarm({required int id}) async =>
+      // ignore: always_specify_types
+      AlarmRepository().deleteAlarm(isar: widget.isar, id: id).then((value) {
         if (mounted) {
           Navigator.pop(context);
         }

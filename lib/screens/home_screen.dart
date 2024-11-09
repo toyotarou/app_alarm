@@ -1,3 +1,4 @@
+import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -27,7 +28,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late List<AlarmSettings> alarms;
+
   DateTime _calendarMonthFirst = DateTime.now();
+
   final List<String> _youbiList = <String>[
     'Sunday',
     'Monday',
@@ -45,8 +49,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   List<AlarmCollection>? alarmCollectionList = <AlarmCollection>[];
 
-  Map<String, List<AlarmCollection>> alarmMap =
-      <String, List<AlarmCollection>>{};
+  Map<String, List<AlarmCollection>> alarmMap = <String, List<AlarmCollection>>{};
+
+  ///
+  @override
+  void initState() {
+    super.initState();
+
+    loadAlarms();
+  }
+
+  ///
+  void loadAlarms() {
+    setState(() {
+      alarms = Alarm.getAlarms();
+
+      alarms.sort((AlarmSettings a, AlarmSettings b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+    });
+  }
 
   ///
   void _init() {
@@ -61,9 +81,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     if (widget.baseYm != null) {
       // ignore: always_specify_types
-      Future(() => ref
-          .read(calendarProvider.notifier)
-          .setCalendarYearMonth(baseYm: widget.baseYm));
+      Future(() => ref.read(calendarProvider.notifier).setCalendarYearMonth(baseYm: widget.baseYm));
     }
 
     final CalendarsResponseState calendarState = ref.watch(calendarProvider);
@@ -78,13 +96,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(width: 10),
             IconButton(
               onPressed: _goPrevMonth,
-              icon: Icon(Icons.arrow_back_ios,
-                  color: Colors.white.withOpacity(0.8), size: 14),
+              icon: Icon(Icons.arrow_back_ios, color: Colors.white.withOpacity(0.8), size: 14),
             ),
             IconButton(
               onPressed: _goNextMonth,
-              icon: Icon(Icons.arrow_forward_ios,
-                  color: Colors.white.withOpacity(0.8), size: 14),
+              icon: Icon(Icons.arrow_forward_ios, color: Colors.white.withOpacity(0.8), size: 14),
             ),
           ],
         ),
@@ -101,22 +117,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           Column(
             children: <Widget>[
-              // ElevatedButton(
-              //   onPressed: () {
-              //     ref
-              //         .read(alarmSettingProvider.notifier)
-              //         .setFirstMove(flag: true);
-              //
-              //     AlarmDialog(
-              //         context: context, widget: const DailyAlarmListAlert());
-              //   },
-              //   child: const Text('aaaaa'),
-              // ),
-              //
-              //
-              //
-              //
-
               Expanded(child: _getCalendar()),
             ],
           ),
@@ -135,18 +135,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final CalendarsResponseState calendarState = ref.watch(calendarProvider);
 
-    _calendarMonthFirst =
-        DateTime.parse('${calendarState.baseYearMonth}-01 00:00:00');
+    _calendarMonthFirst = DateTime.parse('${calendarState.baseYearMonth}-01 00:00:00');
 
-    final DateTime monthEnd =
-        DateTime.parse('${calendarState.nextYearMonth}-00 00:00:00');
+    final DateTime monthEnd = DateTime.parse('${calendarState.nextYearMonth}-00 00:00:00');
 
     final int diff = monthEnd.difference(_calendarMonthFirst).inDays;
     final int monthDaysNum = diff + 1;
 
     final String youbi = _calendarMonthFirst.youbiStr;
-    final int youbiNum =
-        _youbiList.indexWhere((String element) => element == youbi);
+    final int youbiNum = _youbiList.indexWhere((String element) => element == youbi);
 
     final int weekNum = ((monthDaysNum + youbiNum) <= 35) ? 5 : 6;
 
@@ -155,8 +152,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     for (int i = 0; i < (weekNum * 7); i++) {
       if (i >= youbiNum) {
-        final DateTime gendate =
-            _calendarMonthFirst.add(Duration(days: i - youbiNum));
+        final DateTime gendate = _calendarMonthFirst.add(Duration(days: i - youbiNum));
 
         if (_calendarMonthFirst.month == gendate.month) {
           _calendarDays[i] = gendate.day.toString();
@@ -169,8 +165,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       list.add(_getCalendarRow(week: i));
     }
 
-    return DefaultTextStyle(
-        style: const TextStyle(fontSize: 10), child: Column(children: list));
+    return DefaultTextStyle(style: const TextStyle(fontSize: 10), child: Column(children: list));
   }
 
   ///
@@ -180,33 +175,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     for (int i = week * 7; i < ((week + 1) * 7); i++) {
       final String generateYmd = (_calendarDays[i] == '')
           ? ''
-          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month,
-                  _calendarDays[i].toInt())
-              .yyyymmdd;
+          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month, _calendarDays[i].toInt()).yyyymmdd;
 
       final String youbiStr = (_calendarDays[i] == '')
           ? ''
-          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month,
-                  _calendarDays[i].toInt())
-              .youbiStr;
+          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month, _calendarDays[i].toInt()).youbiStr;
 
       final String beforeYmd = (_calendarDays[i] == '')
           ? ''
-          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month,
-                  _calendarDays[i].toInt() + 1)
-              .yyyymmdd;
+          : DateTime(_calendarMonthFirst.year, _calendarMonthFirst.month, _calendarDays[i].toInt() + 1).yyyymmdd;
 
       list.add(
         Expanded(
           child: GestureDetector(
-            onTap: (_calendarDays[i] == '' ||
-                    DateTime.parse('$beforeYmd 00:00:00')
-                        .isBefore(DateTime.now()))
+            onTap: (_calendarDays[i] == '' || DateTime.parse('$beforeYmd 00:00:00').isBefore(DateTime.now()))
                 ? null
                 : () {
-                    ref
-                        .read(alarmSettingProvider.notifier)
-                        .setInputTime(time: '');
+                    ref.read(alarmSettingProvider.notifier).setInputTime(time: '');
 
                     AlarmDialog(
                       context: context,
@@ -230,13 +215,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 color: (_calendarDays[i] == '')
                     ? Colors.transparent
-                    : (DateTime.parse('$beforeYmd 00:00:00')
-                            .isBefore(DateTime.now()))
+                    : (DateTime.parse('$beforeYmd 00:00:00').isBefore(DateTime.now()))
                         ? Colors.white.withOpacity(0.1)
-                        : _utility.getYoubiColor(
-                            date: generateYmd,
-                            youbiStr: youbiStr,
-                            holidayMap: _holidayMap),
+                        : _utility.getYoubiColor(date: generateYmd, youbiStr: youbiStr, holidayMap: _holidayMap),
               ),
               child: (_calendarDays[i] == '')
                   ? const Text('')
@@ -252,8 +233,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: 5),
                         ConstrainedBox(
-                          constraints: BoxConstraints(
-                              minHeight: context.screenSize.height / 10),
+                          constraints: BoxConstraints(minHeight: context.screenSize.height / 10),
                           child: Column(
                             children: displayAlarmList(date: generateYmd),
                           ),
@@ -277,8 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       context,
       // ignore: inference_failure_on_instance_creation, always_specify_types
       MaterialPageRoute(
-          builder: (BuildContext context) => HomeScreen(
-              isar: widget.isar, baseYm: calendarState.prevYearMonth)),
+          builder: (BuildContext context) => HomeScreen(isar: widget.isar, baseYm: calendarState.prevYearMonth)),
     );
   }
 
@@ -290,8 +269,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       context,
       // ignore: inference_failure_on_instance_creation, always_specify_types
       MaterialPageRoute(
-          builder: (BuildContext context) => HomeScreen(
-              isar: widget.isar, baseYm: calendarState.nextYearMonth)),
+          builder: (BuildContext context) => HomeScreen(isar: widget.isar, baseYm: calendarState.nextYearMonth)),
     );
   }
 
@@ -300,15 +278,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final List<Widget> list = <Widget>[];
 
     alarmMap[date]?.forEach((AlarmCollection element) {
+      final List<String> calenderDateTimeList = <String>[];
+      for (final AlarmSettings element in alarms) {
+        if (element.dateTime.yyyymmdd == date) {
+          final List<String> exElement = element.dateTime.toString().split(' ');
+          calenderDateTimeList.add('${exElement[1].split(':')[0]}:${exElement[1].split(':')[1]}');
+        }
+      }
+
       list.add(Container(
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(element.time),
-            Container(),
+            Icon(
+              Icons.timelapse,
+              size: 10,
+              color: (calenderDateTimeList.contains(element.time)) ? Colors.yellowAccent : Colors.white,
+            ),
           ],
         ),
       ));
@@ -322,9 +310,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     alarmCollectionList = <AlarmCollection>[];
     alarmMap = <String, List<AlarmCollection>>{};
 
-    await AlarmRepository()
-        .getAlarmList(isar: widget.isar)
-        .then((List<AlarmCollection>? value) {
+    await AlarmRepository().getAlarmList(isar: widget.isar).then((List<AlarmCollection>? value) {
       if (mounted) {
         setState(() {
           alarmCollectionList = value;
