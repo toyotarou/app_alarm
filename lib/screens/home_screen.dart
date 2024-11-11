@@ -12,6 +12,7 @@ import '../controllers/holidays/holidays_response_state.dart';
 import '../extensions/extensions.dart';
 import '../repository/alarm_repository.dart';
 import '../utilities/utilities.dart';
+import 'components/alarm_collection_list_alert.dart';
 import 'components/daily_alarm_input_alert.dart';
 import 'components/parts/alarm_dialog.dart';
 import 'components/parts/back_ground_image.dart';
@@ -107,6 +108,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         centerTitle: false,
         backgroundColor: Colors.transparent,
         actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              AlarmDialog(
+                  context: context,
+                  widget: AlarmCollectionListAlert(
+                    isar: widget.isar,
+                    alarmCollectionList: alarmCollectionList ?? <AlarmCollection>[],
+                  ));
+            },
+            icon: const Icon(Icons.list),
+          ),
           IconButton(
             onPressed: () {
               Navigator.pushReplacement(
@@ -248,9 +260,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 5),
                         ConstrainedBox(
                           constraints: BoxConstraints(minHeight: context.screenSize.height / 10),
-                          child: Column(
-                            children: displayAlarmList(date: generateYmd),
-                          ),
+                          child: Column(children: displayAlarmList(date: generateYmd)),
                         ),
                       ],
                     ),

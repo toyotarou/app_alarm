@@ -11,6 +11,7 @@ import '../../controllers/alarm_setting/alarm_setting.dart';
 import '../../extensions/extensions.dart';
 import '../../repository/alarm_repository.dart';
 
+import '../home_screen.dart';
 import 'daily_alarm_list_alert.dart';
 import 'parts/alarm_dialog.dart';
 import 'parts/error_dialog.dart';
@@ -271,7 +272,17 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                       Alarm.stop(alarmIdMap[element.time]!);
                     }
 
+                    updateAlarmOff(element: element);
+
                     Navigator.pop(context);
+
+                    Navigator.pushReplacement(
+                      context,
+                      // ignore: inference_failure_on_instance_creation, always_specify_types
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => HomeScreen(isar: widget.isar, baseYm: widget.date.yyyymm),
+                      ),
+                    );
                   },
                   child: Icon(
                     Icons.timelapse,
@@ -312,6 +323,20 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
         ),
       ],
     );
+  }
+
+  ///
+  Future<void> updateAlarmOff({required AlarmCollection element}) async {
+    element.alarmOn = 1;
+
+    await AlarmRepository()
+        .updateAlarm(isar: widget.isar, alarm: element)
+        // ignore: always_specify_types
+        .then((value) {
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    });
   }
 
   ///

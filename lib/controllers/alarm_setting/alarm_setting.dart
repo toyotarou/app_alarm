@@ -21,14 +21,11 @@ class AlarmSetting extends _$AlarmSetting {
   AlarmSettingState build() => const AlarmSettingState();
 
   ///
-  Future<void> setInputTime({required String time}) async =>
-      state = state.copyWith(inputTime: time);
+  Future<void> setInputTime({required String time}) async => state = state.copyWith(inputTime: time);
 
   ///
-  void setSelectedEditId({required int id}) =>
-      state = state.copyWith(selectedEditId: id);
+  void setSelectedEditId({required int id}) => state = state.copyWith(selectedEditId: id);
 
   ///
-  void setFirstMove({required bool flag}) =>
-      state = state.copyWith(firstMove: flag);
+  void setFirstMove({required bool flag}) => state = state.copyWith(firstMove: flag);
 }
