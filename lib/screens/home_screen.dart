@@ -111,11 +111,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           IconButton(
             onPressed: () {
               AlarmDialog(
-                  context: context,
-                  widget: AlarmCollectionListAlert(
-                    isar: widget.isar,
-                    alarmCollectionList: alarmCollectionList ?? <AlarmCollection>[],
-                  ));
+                context: context,
+                widget: AlarmCollectionListAlert(isar: widget.isar),
+              );
             },
             icon: const Icon(Icons.list),
           ),
