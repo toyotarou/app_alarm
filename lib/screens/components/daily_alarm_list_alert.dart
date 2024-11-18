@@ -125,7 +125,12 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
                   // ignore: always_specify_types
                   children: List.generate(
                     alarms.length,
-                    (int index) => Text(alarms[index].dateTime.toString()),
+                    (int index) => Text(
+                      alarms[index].dateTime.toString(),
+                      style: const TextStyle(
+                        fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
+                      ),
+                    ),
                   ),
                 ),
               ),

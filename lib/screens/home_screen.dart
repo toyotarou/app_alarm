@@ -109,12 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         backgroundColor: Colors.transparent,
         actions: <Widget>[
           IconButton(
-            onPressed: () {
-              AlarmDialog(
-                context: context,
-                widget: AlarmCollectionListAlert(isar: widget.isar),
-              );
-            },
+            onPressed: () => AlarmDialog(context: context, widget: AlarmCollectionListAlert(isar: widget.isar)),
             icon: const Icon(Icons.list),
           ),
           IconButton(
@@ -139,11 +134,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             height: context.screenSize.height,
             decoration: BoxDecoration(color: Colors.black.withOpacity(0.7)),
           ),
-          Column(
-            children: <Widget>[
-              Expanded(child: _getCalendar()),
-            ],
-          ),
+          _getCalendar(),
         ],
       ),
     );
@@ -196,6 +187,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _getCalendarRow({required int week}) {
     final List<Widget> list = <Widget>[];
 
+    final double oneHeight = context.screenSize.height / 10;
+
     for (int i = week * 7; i < ((week + 1) * 7); i++) {
       final String generateYmd = (_calendarDays[i] == '')
           ? ''
@@ -219,10 +212,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     AlarmDialog(
                       context: context,
-                      widget: DailyAlarmInputAlert(
-                        date: DateTime.parse('$generateYmd 00:00:00'),
-                        isar: widget.isar,
-                      ),
+                      widget: DailyAlarmInputAlert(date: DateTime.parse('$generateYmd 00:00:00'), isar: widget.isar),
                     );
                   },
             child: Container(
@@ -250,16 +240,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(_calendarDays[i].padLeft(2, '0')),
-                            Container(),
-                          ],
+                          children: <Widget>[Text(_calendarDays[i].padLeft(2, '0')), Container()],
                         ),
                         const SizedBox(height: 5),
-                        ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: context.screenSize.height / 10),
-                          child: Column(children: displayAlarmList(date: generateYmd)),
-                        ),
+                        SizedBox(
+                          height: oneHeight,
+                          child: SingleChildScrollView(child: Column(children: displayAlarmList(date: generateYmd))),
+                        )
                       ],
                     ),
             ),
