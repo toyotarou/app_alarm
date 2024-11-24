@@ -82,16 +82,18 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(),
-                  if (selectedEditId != 0)
-                    TextButton(
-                      onPressed: () => _updateAlarm(),
-                      child: const Text('アラーム設定を更新する', style: TextStyle(fontSize: 12)),
-                    )
-                  else
-                    TextButton(
-                      onPressed: () => _inputAlarm(),
-                      child: const Text('アラーム設定を追加する', style: TextStyle(fontSize: 12)),
-                    ),
+                  if (widget.date.isAfter(DateTime.now())) ...<Widget>[
+                    if (selectedEditId != 0)
+                      TextButton(
+                        onPressed: () => _updateAlarm(),
+                        child: const Text('アラーム設定を更新する', style: TextStyle(fontSize: 12)),
+                      )
+                    else
+                      TextButton(
+                        onPressed: () => _inputAlarm(),
+                        child: const Text('アラーム設定を追加する', style: TextStyle(fontSize: 12)),
+                      ),
+                  ],
                 ],
               ),
               Expanded(child: _displayAlarmList()),
@@ -99,32 +101,35 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(),
-                  TextButton(
-                    onPressed: () {
-                      if (setAbleAlarmList.isEmpty) {
-                        // ignore: always_specify_types
-                        Future.delayed(
-                          Duration.zero,
-                          () => error_dialog(
-                            // ignore: use_build_context_synchronously
-                            context: context,
-                            title: '設定できません。',
-                            content: 'アラーム設定が存在しません。',
-                          ),
+                  if (widget.date.isBefore(DateTime.now()))
+                    Container()
+                  else
+                    TextButton(
+                      onPressed: () {
+                        if (setAbleAlarmList.isEmpty) {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () => error_dialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              title: '設定できません。',
+                              content: 'アラーム設定が存在しません。',
+                            ),
+                          );
+
+                          return;
+                        }
+
+                        ref.read(alarmSettingProvider.notifier).setFirstMove(flag: true);
+
+                        AlarmDialog(
+                          context: context,
+                          widget: DailyAlarmListAlert(alarmList: setAbleAlarmList),
                         );
-
-                        return;
-                      }
-
-                      ref.read(alarmSettingProvider.notifier).setFirstMove(flag: true);
-
-                      AlarmDialog(
-                        context: context,
-                        widget: DailyAlarmListAlert(alarmList: setAbleAlarmList),
-                      );
-                    },
-                    child: const Text('アラームを設定する', style: TextStyle(fontSize: 12)),
-                  ),
+                      },
+                      child: const Text('アラームを設定する', style: TextStyle(fontSize: 12)),
+                    ),
                 ],
               ),
             ],
@@ -191,10 +196,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    IconButton(
-                      onPressed: () => _showTP(),
-                      icon: const Icon(Icons.timelapse),
-                    ),
+                    IconButton(onPressed: () => _showTP(), icon: const Icon(Icons.timelapse)),
                     Text((inputTime != '') ? inputTime : '--:--'),
                   ],
                 ),
