@@ -57,9 +57,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
 
-    _makeAlarmCollectionList();
-
     loadAlarms();
+
+    _makeAlarmCollectionList();
   }
 
   ///
@@ -199,10 +199,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       list.add(
         Expanded(
           child: GestureDetector(
-            /*
-
-
-
             onTap: (_calendarDays[i] == '' || DateTime.parse('$beforeYmd 00:00:00').isBefore(DateTime.now()))
                 ? null
                 : () {
@@ -213,18 +209,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       widget: DailyAlarmInputAlert(date: DateTime.parse('$generateYmd 00:00:00'), isar: widget.isar),
                     );
                   },
-
-
-            */
-
-            onTap: () {
-              ref.read(alarmSettingProvider.notifier).setInputTime(time: '');
-
-              AlarmDialog(
-                context: context,
-                widget: DailyAlarmInputAlert(date: DateTime.parse('$generateYmd 00:00:00'), isar: widget.isar),
-              );
-            },
             child: Container(
               margin: const EdgeInsets.all(1),
               padding: const EdgeInsets.all(2),

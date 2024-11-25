@@ -177,6 +177,7 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
       loopAudio: true,
       // ignore: avoid_redundant_argument_values
       vibrate: true,
+      volume: 0.8,
       fadeDuration: 3.0,
       notificationSettings: NotificationSettings(title: title, body: description),
     );
