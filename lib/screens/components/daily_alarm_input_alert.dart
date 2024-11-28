@@ -12,7 +12,7 @@ import '../../extensions/extensions.dart';
 import '../../repository/alarm_repository.dart';
 
 import '../home_screen.dart';
-import 'daily_alarm_list_alert.dart';
+import 'all_alarm_list_alert.dart';
 import 'parts/alarm_dialog.dart';
 import 'parts/error_dialog.dart';
 
@@ -120,7 +120,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
 
                       AlarmDialog(
                         context: context,
-                        widget: DailyAlarmListAlert(alarmList: setAbleAlarmList),
+                        widget: AllAlarmListAlert(alarmList: setAbleAlarmList),
                       );
                     },
                     child: const Text('アラームを設定する', style: TextStyle(fontSize: 12)),

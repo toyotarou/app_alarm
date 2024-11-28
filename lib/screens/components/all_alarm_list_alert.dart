@@ -11,16 +11,16 @@ import '../../controllers/alarm_setting/alarm_setting.dart';
 import '../../extensions/extensions.dart';
 import '../alarm_notification_screen.dart';
 
-class DailyAlarmListAlert extends ConsumerStatefulWidget {
-  const DailyAlarmListAlert({super.key, required this.alarmList});
+class AllAlarmListAlert extends ConsumerStatefulWidget {
+  const AllAlarmListAlert({super.key, required this.alarmList});
 
   final List<AlarmCollection> alarmList;
 
   @override
-  ConsumerState<DailyAlarmListAlert> createState() => _DailyAlarmListAlertState();
+  ConsumerState<AllAlarmListAlert> createState() => _AllAlarmListAlertState();
 }
 
-class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
+class _AllAlarmListAlertState extends ConsumerState<AllAlarmListAlert> {
   late List<AlarmSettings> alarms;
 
   // ignore: cancel_subscriptions
@@ -125,12 +125,23 @@ class _DailyAlarmListAlertState extends ConsumerState<DailyAlarmListAlert> {
                   // ignore: always_specify_types
                   children: List.generate(
                     alarms.length,
-                    (int index) => Text(
-                      alarms[index].dateTime.toString(),
-                      style: const TextStyle(
-                        fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
-                      ),
-                    ),
+                    (int index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            alarms[index].dateTime.toString(),
+                            style: const TextStyle(
+                              fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Alarm.stop(alarms[index].id),
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
