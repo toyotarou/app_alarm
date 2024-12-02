@@ -25,6 +25,8 @@ class _AlarmCollectionListAlertState extends ConsumerState<AlarmCollectionListAl
 
   late List<AlarmSettings> alarms;
 
+  List<String> alarmDateList = <String>[];
+
   ///
   @override
   void initState() {
@@ -80,29 +82,59 @@ class _AlarmCollectionListAlertState extends ConsumerState<AlarmCollectionListAl
       alarmIdList.add(element.id);
     }
 
-    alarmCollectionList?.forEach((AlarmCollection element) {
-      list.add(Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+    alarmDateList.sort((String a, String b) => a.compareTo(b) * -1);
+
+    for (final String element in alarmDateList) {
+      final List<Widget> list2 = <Widget>[];
+      alarmMap[element]?.forEach((AlarmCollection element2) {
+        list2.add(Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 40, child: Text(element2.time)),
+              const SizedBox(width: 10),
+              Expanded(child: Text(element2.title, maxLines: 1, overflow: TextOverflow.ellipsis)),
+              SizedBox(
+                width: 30,
+                child: Icon(
+                  Icons.timelapse,
+                  color: (alarmIdList.contains(element2.id)) ? Colors.yellowAccent : Colors.white,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ));
+      });
+
+      final String youbi =
+          DateTime(element.split('-')[0].toInt(), element.split('-')[1].toInt(), element.split('-')[2].toInt())
+              .youbiStr;
+
+      list.add(Padding(
+        padding: const EdgeInsets.only(top: 10),
         child: Row(
           children: <Widget>[
-            SizedBox(width: 70, child: Text(element.date)),
-            const SizedBox(width: 10),
-            SizedBox(width: 40, child: Text(element.time)),
-            const SizedBox(width: 10),
-            Expanded(child: Text(element.title, maxLines: 1, overflow: TextOverflow.ellipsis)),
-            SizedBox(
-              width: 30,
-              child: Icon(
-                Icons.timelapse,
-                color: (alarmIdList.contains(element.id)) ? Colors.yellowAccent : Colors.white,
-                size: 20,
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(color: Colors.yellowAccent.withOpacity(0.1)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(element),
+                    Row(children: <Widget>[Text(youbi), const SizedBox(width: 10)]),
+                  ],
+                ),
               ),
             ),
+            Expanded(child: Container()),
           ],
         ),
       ));
-    });
+
+      list.add(Column(children: list2));
+    }
 
     return CustomScrollView(
       slivers: <Widget>[
@@ -130,6 +162,10 @@ class _AlarmCollectionListAlertState extends ConsumerState<AlarmCollectionListAl
             }
             for (final AlarmCollection element in value) {
               alarmMap[element.date]?.add(element);
+
+              if (!alarmDateList.contains(element.date)) {
+                alarmDateList.add(element.date);
+              }
             }
           }
         });
