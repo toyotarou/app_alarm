@@ -206,7 +206,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     AlarmDialog(
                       context: context,
-                      widget: DailyAlarmInputAlert(date: DateTime.parse('$generateYmd 00:00:00'), isar: widget.isar),
+                      widget: DailyAlarmInputAlert(
+                        date: DateTime.parse('$generateYmd 00:00:00'),
+                        isar: widget.isar,
+                      ),
+                      executeFunctionWhenDialogClose: true,
+                      date: DateTime.parse('$generateYmd 00:00:00'),
+                      isar: widget.isar,
                     );
                   },
             child: Container(
