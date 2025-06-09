@@ -305,7 +305,7 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
                 ),
                 const SizedBox(width: 10),
                 GestureDetector(
-                  onTap: () => _showDeleteDialog(id: element.id),
+                  onTap: () => _showDeleteDialog(id: element.id, alarmId: alarmIdMap[element.time]),
                   child: Icon(Icons.delete, color: Colors.white.withOpacity(0.4)),
                 ),
               ],
@@ -491,12 +491,12 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   }
 
   ///
-  void _showDeleteDialog({required int id}) {
+  void _showDeleteDialog({required int id, int? alarmId}) {
     final Widget cancelButton = TextButton(onPressed: () => Navigator.pop(context), child: const Text('いいえ'));
 
     final Widget continueButton = TextButton(
         onPressed: () {
-          _deleteAlarm(id: id);
+          _deleteAlarm(id: id, alarmId: alarmId);
 
           Navigator.pop(context);
         },
@@ -513,11 +513,15 @@ class _DailyAlarmDisplayAlertState extends ConsumerState<DailyAlarmInputAlert> {
   }
 
   ///
-  Future<void> _deleteAlarm({required int id}) async =>
-      // ignore: always_specify_types
-      AlarmRepository().deleteAlarm(isar: widget.isar, id: id).then((value) {
-        if (mounted) {
-          Navigator.pop(context);
+  Future<void> _deleteAlarm({required int id, int? alarmId}) async {
+    return AlarmRepository().deleteAlarm(isar: widget.isar, id: id).then((value) {
+      if (mounted) {
+        if (alarmId != null) {
+          Alarm.stop(alarmId);
         }
-      });
+
+        Navigator.pop(context);
+      }
+    });
+  }
 }

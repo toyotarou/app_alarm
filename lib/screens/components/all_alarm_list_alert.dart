@@ -10,6 +10,7 @@ import '../../collections/alarm_collection.dart';
 import '../../controllers/alarm_setting/alarm_setting.dart';
 import '../../extensions/extensions.dart';
 import '../alarm_notification_screen.dart';
+import 'parts/alarm_dialog.dart';
 
 class AllAlarmListAlert extends ConsumerStatefulWidget {
   const AllAlarmListAlert({super.key, required this.alarmList});
@@ -87,12 +88,16 @@ class _AllAlarmListAlertState extends ConsumerState<AllAlarmListAlert> {
 
   ///
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => AlarmNotificationScreen(alarmSettings: alarmSettings),
-      ),
-    );
+    // await Navigator.push(
+    //   context,
+    //   MaterialPageRoute<void>(
+    //     builder: (BuildContext context) => AlarmNotificationScreen(alarmSettings: alarmSettings),
+    //   ),
+    // );
+    //
+    //
+
+    AlarmDialog(context: context, widget: AlarmNotificationScreen(alarmSettings: alarmSettings));
 
     loadAlarms();
   }

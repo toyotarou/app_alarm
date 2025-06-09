@@ -11,16 +11,15 @@ class AlarmNotificationScreen extends ConsumerStatefulWidget {
   AlarmSettings alarmSettings;
 
   @override
-  ConsumerState<AlarmNotificationScreen> createState() =>
-      _AlarmNotificationScreenState();
+  ConsumerState<AlarmNotificationScreen> createState() => _AlarmNotificationScreenState();
 }
 
-class _AlarmNotificationScreenState
-    extends ConsumerState<AlarmNotificationScreen> {
+class _AlarmNotificationScreenState extends ConsumerState<AlarmNotificationScreen> {
   ///
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: SizedBox(
           width: double.infinity,
@@ -41,9 +40,7 @@ class _AlarmNotificationScreenState
                 onPressed: () {
                   Alarm.stop(widget.alarmSettings.id).then(
                     (_) {
-                      ref
-                          .read(alarmSettingProvider.notifier)
-                          .setFirstMove(flag: false);
+                      ref.read(alarmSettingProvider.notifier).setFirstMove(flag: false);
 
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
